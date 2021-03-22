@@ -1,10 +1,10 @@
 import { Controller } from '@nestjs/common';
 import { Body, Post, Req } from '@nestjs/common/decorators';
-import { ApiExtraModels, ApiOperation, ApiProperty, getSchemaPath } from '@nestjs/swagger';
+import { ApiBody, ApiExtraModels, ApiOperation, ApiProperty, getSchemaPath } from '@nestjs/swagger';
 import { Request } from 'express';
 
 
-export class User {
+export class  User {
     @ApiProperty({
         name: "name",
         example: "default foo name example"
@@ -59,6 +59,19 @@ export class AppController {
                 }
             }
         }
+    })
+    @ApiBody({
+        schema: {
+            example:
+            {
+                value: {
+                    name: "bar name diffrent",
+                    age: 20,
+                    type: "BAR"
+                } as User,
+                description: "This is Bar user Example",
+            }
+        },
     })
     @Post("/with")
     withBodyAnnotation(@Body() payload: User) {
