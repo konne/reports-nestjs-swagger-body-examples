@@ -3,8 +3,10 @@ import { Body, Post, Req } from '@nestjs/common/decorators';
 import { ApiBody, ApiExtraModels, ApiOperation, ApiProperty, getSchemaPath } from '@nestjs/swagger';
 import { Request } from 'express';
 
+export class User2 {
+}
 
-export class  User {
+export class User {
     @ApiProperty({
         name: "name",
         example: "default foo name example"
@@ -37,7 +39,16 @@ export class AppController {
             required: true,
             content: {
                 "application/json": {
-                    schema: { $ref: getSchemaPath(User) },
+                    schema: {
+                        $ref: getSchemaPath(User),
+                        example: {
+                            value: {
+                                name: "diffrent",
+                                age: 228,
+                                type: "FOO"
+                            } as User,
+                        }
+                    },
                     examples: {
                         "Foo User": {
                             value: {
@@ -54,6 +65,9 @@ export class AppController {
                                 type: "BAR"
                             } as User,
                             description: "This is Bar user Example",
+                        },
+                        "REFU": {
+                            $ref: ""
                         }
                     }
                 }
@@ -61,18 +75,21 @@ export class AppController {
         }
     })
     @ApiBody({
-        schema: {
-            example:
-            {
+        schema: { 
+            $ref: getSchemaPath(User),
+        },
+        examples:
+        {
+            'test': {
                 value: {
-                    name: "bar name diffrent",
+                    name: "EXAMPLE APIBody beside schema",
                     age: 20,
                     type: "BAR"
                 } as User,
                 description: "This is Bar user Example",
             }
-        },
-    })
+        }
+    } as any)
     @Post("/with")
     withBodyAnnotation(@Body() payload: User) {
         return payload
